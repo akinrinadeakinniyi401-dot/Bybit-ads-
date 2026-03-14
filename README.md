@@ -64,9 +64,19 @@ Copy `.env.example` values into Render environment variables:
 
 1. Push this repo to GitHub.
 2. In Render, create **New + > Web Service** from the repo.
-3. Render auto-detects `render.yaml`.
+3. Use this start command (or keep `render.yaml` defaults):
+
+```bash
+gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4
+```
+
 4. Add the environment variables.
 5. Deploy.
+
+### If you see `ModuleNotFoundError: No module named 'app'`
+
+This means your service is running `gunicorn app:app` but `app.py` was missing in an older version.
+Pull latest code and redeploy (this repo now includes `app.py`).
 
 ---
 
@@ -81,6 +91,12 @@ export BYBIT_API_KEY=...
 export BYBIT_API_SECRET=...
 export BYBIT_BTC_NGN_AD_IDS=12345
 python bot.py
+```
+
+For local gunicorn-style run:
+
+```bash
+gunicorn app:app --bind 0.0.0.0:10000 --workers 1 --threads 4
 ```
 
 ---
